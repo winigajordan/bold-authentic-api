@@ -51,7 +51,6 @@ public class VarianteService implements IVarianteService {
 
     public void saveVariants(List<VariantDto> variantDTOs) {
         for (VariantDto dto : variantDTOs) {
-            if (dto.getSku() == null || dto.getInventoryItemId() == null) continue;
 
             varianteRepository.save(
                     Variante.
@@ -83,6 +82,8 @@ public class VarianteService implements IVarianteService {
     @Override
     public String updateInventoryQuantity(UpdateDto dto) {
         Variante variante = varianteRepository.findBySku(dto.getCodeBar());
+
+        if (variante == null) return "Variante n'existe pas";
 
         var qte = 0;
         if (dto.isState()) qte = 1000;
